@@ -1,4 +1,5 @@
 # 32bits
+
 NOT to be confused with the cpu arch.
 
 hello! welcome to the github repository to my operating system :3

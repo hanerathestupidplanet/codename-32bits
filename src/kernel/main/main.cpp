@@ -2,6 +2,7 @@
 
 #include "stdio.h"
 #include "./../fun/brainfuck.h"
+#include "./../idt/idt.h"
 
 // Source - https://stackoverflow.com/q/10419801
 // Posted by Svalorzen, modified by community. See post 'Timeline' for change history
@@ -9,6 +10,8 @@
 
 void * __gxx_personality_v0=0; // shut up the compiler
 void * _Unwind_Resume =0;
+
+
 
 
 void commands(char* cmd){
@@ -25,7 +28,7 @@ void commands(char* cmd){
     }
 
     if (streq(cmd, "BRAINFUCK") == 1){
-        int memory[1024] = {};
+        uint8_t memory[1024] = {};
         for (int i = 0; i < 1024; i++){ // resets memory
 
             memory[i] = 0;
@@ -59,7 +62,7 @@ void commands(char* cmd){
         printf("SHUTDOWNQEMU - shuts down QEMU (if youre running this in QEMU)\n",0x05);
         printf("BRAINFUCK - opens a brainfuck command line\n",0x05);
         printf("MEOW - mrrow\n",0x05);
-        printf("also the keymap is a little weird because i couldnt use my keypad and i havent added macros yet LOL\n", 0x05);
+        printf("also the keymap is a little weird because i couldnt use my keypad and i havent  added macros yet LOL\n", 0x05);
         return;
 
     }
@@ -69,6 +72,9 @@ void commands(char* cmd){
 
 
 extern "C" void main(){
+    clearScreen();
+    printf("Initializing IDT...", 0x05);
+    idtInit();
     clearScreen();
     printf("codename 32bits\ntype in 'help' for a list of commands\n\n", 0x05);
     char command[100] = {};

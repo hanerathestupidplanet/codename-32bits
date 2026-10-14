@@ -1,1 +1,0 @@
-void brainfuck(const char* code, int* memory);

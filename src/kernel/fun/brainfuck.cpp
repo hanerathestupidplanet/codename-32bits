@@ -1,7 +1,6 @@
-#include "./../kernel/stdio.h"
+#include "./../main/stdio.h"
 
-
-void brainfuck(const char* code, int* memory){ // runs brainfuck code!!!
+void brainfuck(const char* code, uint8_t* memory){ // runs brainfuck code!!!
     putc('\n',0);
     int brackets = 0;
     int memoryPointer = 0;

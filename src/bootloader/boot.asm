@@ -110,10 +110,15 @@ main:
     int 0x13
 
     mov ah, 0
+    
     mov al, 3
+    
     int 0x10
+    
     cli
+    
     lgdt [gdt_desc]
+
     mov eax, cr0
     or eax, 1
     mov cr0, eax
