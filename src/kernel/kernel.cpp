@@ -3,6 +3,14 @@
 #include "stdio.h"
 #include "./../fun/brainfuck.h"
 
+// Source - https://stackoverflow.com/q/10419801
+// Posted by Svalorzen, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-10-14, License - CC BY-SA 4.0
+
+void * __gxx_personality_v0=0; // shut up the compiler
+void * _Unwind_Resume =0;
+
+
 void commands(char* cmd){
     if (streq(cmd, "CLEAR") == 1){
         clearScreen();
@@ -17,10 +25,21 @@ void commands(char* cmd){
     }
 
     if (streq(cmd, "BRAINFUCK") == 1){
-        printf("\nType in your brainfuck code here NOW OR DIE >:CCC (max 1024 chars)\n",0x05);
-        char codelol[1024] = {};
-        getInput(codelol);
-        brainfuck(codelol);
+        int memory[1024] = {};
+        for (int i = 0; i < 1024; i++){ // resets memory
+
+            memory[i] = 0;
+        
+        }
+        while (true){
+            printf("\nbrainfuck > ",0x05);
+            char codelol[1024] = {};
+            getInput(codelol);
+            if (streq(codelol, "EXIT")){
+                break;
+            }
+            brainfuck(codelol, memory);
+        }
         return;
     }
 
@@ -35,8 +54,12 @@ void commands(char* cmd){
         return;
 
     }
-    if (streq(cmd, "BFTEST") == 1){
-        brainfuck(">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+.");
+    if (streq(cmd, "HELP") == 1){ 
+        printf("\nCLEAR - clears the screen\n",0x05);
+        printf("SHUTDOWNQEMU - shuts down QEMU (if youre running this in QEMU)\n",0x05);
+        printf("BRAINFUCK - opens a brainfuck command line\n",0x05);
+        printf("MEOW - mrrow\n",0x05);
+        printf("also the keymap is a little weird because i couldnt use my keypad and i havent added macros yet LOL\n", 0x05);
         return;
 
     }
@@ -47,7 +70,7 @@ void commands(char* cmd){
 
 extern "C" void main(){
     clearScreen();
-    printf("codename 32bits\nhi :3\n\n", 0x05);
+    printf("codename 32bits\ntype in 'help' for a list of commands\n\n", 0x05);
     char command[100] = {};
     while (1){
         putc('>',0x05);

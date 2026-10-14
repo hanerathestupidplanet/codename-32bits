@@ -1,1 +1,1 @@
-void brainfuck(const char* code);
+void brainfuck(const char* code, int* memory);

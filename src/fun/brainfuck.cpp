@@ -1,16 +1,10 @@
 #include "./../kernel/stdio.h"
 
 
-void brainfuck(const char* code){
+void brainfuck(const char* code, int* memory){ // runs brainfuck code!!!
     putc('\n',0);
     int brackets = 0;
-    int memory[1024] = {};
     int memoryPointer = 0;
-    for (int i = 0; i < 1024; i++){ // resets memory
-
-        memory[i] = 0;
-        
-    }
 
     int i = 0;
 
