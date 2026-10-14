@@ -1,8 +1,9 @@
-//src/kernel/kernel.cpp
+//src/kernel/main.cpp
 
 #include "stdio.h"
 #include "./../fun/brainfuck.h"
 #include "./../idt/idt.h"
+#include "./../gdt/gdt.h"
 
 // Source - https://stackoverflow.com/q/10419801
 // Posted by Svalorzen, modified by community. See post 'Timeline' for change history
@@ -73,6 +74,8 @@ void commands(char* cmd){
 
 extern "C" void main(){
     clearScreen();
+    printf("Initializing GDT...", 0x05);
+    gdtInit();
     printf("Initializing IDT...", 0x05);
     idtInit();
     clearScreen();

@@ -106,8 +106,8 @@ main:
     mov dh, 0
     mov cl, 2
     mov dl, [bootdisk]
-    jc diskError
     int 0x13
+    jc diskError
 
     mov ah, 0
     

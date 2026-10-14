@@ -3,6 +3,7 @@ bld = build
 src = src
 krnlPath = $(src)/kernel
 krnlIdt = $(krnlPath)/idt
+krnlGdt = $(krnlPath)/gdt
 krnlMain = $(krnlPath)/main
 krnlIsr = $(krnlPath)/isr
 krnlFun = $(krnlPath)/fun
@@ -24,6 +25,8 @@ boot = $(src)/bootloader/boot.asm
 # kernel shit
 idtAsm = $(krnlIdt)/idt.asm
 idtCpp = $(krnlIdt)/idt.cpp
+gdtAsm = $(krnlGdt)/gdt.asm
+gdtCpp = $(krnlGdt)/gdt.cpp
 
 bfCpp = $(krnlFun)/brainfuck.cpp
 
@@ -38,7 +41,9 @@ krnlEntryBuilt = $(bld)/kernel/main/entry.o
 krnlMainBuilt = $(bld)/kernel/main/main.o
 krnlStdioBuilt = $(bld)/kernel/main/stdio.o
 idtAsmBuilt = $(bld)/kernel/idt/idtAsm.o
-idtCppBuilt = $(bld)/kernel/idt/idtC.o
+idtCppBuilt = $(bld)/kernel/idt/idtCpp.o
+gdtAsmBuilt = $(bld)/kernel/gdt/gdtAsm.o
+gdtCppBuilt = $(bld)/kernel/gdt/gdtCpp.o
 
 bfCppBuilt = $(bld)/kernel/fun/bf.o
 
@@ -54,6 +59,7 @@ clean:
 	mkdir $(bld)/kernel
 	mkdir $(bld)/kernel/main/
 	mkdir $(bld)/kernel/idt/
+	mkdir $(bld)/kernel/gdt/
 	mkdir $(bld)/kernel/isr/
 	mkdir $(bld)/kernel/fun/
 
@@ -61,13 +67,15 @@ clean:
 	$(asm) $(asmBoot) $(bootBuilt) $(boot)
 	$(asm) $(asmKrnl) $(krnlEntryBuilt) $(krnlEntry)
 	$(asm) $(asmKrnl) $(idtAsmBuilt) $(idtAsm) 
+	$(asm) $(asmKrnl) $(gdtAsmBuilt) $(gdtAsm) 
 
 #kernel files being build
 	$(comp) $(compFlag) $(krnlMainBuilt) $(krnlMainCpp)
 	$(comp) $(compFlag) $(krnlStdioBuilt) $(krnlStdio)
 	$(comp) $(compFlag) $(idtCppBuilt) $(idtCpp)
 	$(comp) $(compFlag) $(bfCppBuilt) $(bfCpp)
-	$(link) $(linkFlag) $(fullKrnl) $(krnlEntryBuilt) $(krnlMainBuilt) $(krnlStdioBuilt) $(idtCppBuilt) $(idtAsmBuilt) $(bfCppBuilt)
+	$(comp) $(compFlag) $(gdtCppBuilt) $(gdtCpp)
+	$(link) $(linkFlag) $(fullKrnl) $(krnlEntryBuilt) $(krnlMainBuilt) $(gdtCppBuilt) $(gdtAsmBuilt)  $(krnlStdioBuilt) $(idtCppBuilt) $(idtAsmBuilt) $(bfCppBuilt)
 
 # finally put the OS binary together
 	cat $(bootBuilt) $(fullKrnl) > $(os)

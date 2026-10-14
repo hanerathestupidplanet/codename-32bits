@@ -25,3 +25,5 @@ void clearScreen(void);  //..pretty self explanatory
 int streq(const char* s, const char* s2); // checks if 2 strings are equal, returns 1 if yes and 0 if no
 
 void setCursor(int x, int y); // sets the cursor
+
+void tostring(int n, char* str);
